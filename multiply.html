@@ -25,31 +25,42 @@
             onSubmit = (e)=>{
                 e.preventDefault();
                 if(parseInt(this.state.value) === this.state.first * this.state.second){
-                    this.setState({
-                        result: `${this.state.first} x ${this.state.second} = ${this.state.value} 정답!`,
-                        first: Math.ceil(Math.random()*9),
-                        second: Math.ceil(Math.random()*9),
-                        value:'',
-                    })
+                    this.setState((prevState)=>{
+                        return{
+                            result: `${prevState.first} x ${prevState.second} = ${prevState.value} 정답!`,
+                            first: Math.ceil(Math.random()*9),
+                            second: Math.ceil(Math.random()*9),
+                            value:'',
+                        };
+                    });
+                    this.answerInput.focus();
                 }else{
                     this.setState({
                         result:'땡!!',
                         value:'',
-                    })
-                }
-            }
-            onChange = (e)=> {this.setState({
-                value: e.target.value
-            })}
+                    });
+                };
+            };
+            onChange = (e)=> {
+                this.setState({
+                    value: e.target.value
+                });
+            };
+
+            answerInput; //클래스 안에 선언
+
             render(){
                 return(
                     <React.Fragment>
-                    // ⬆︎ 바벨지원용
+                    {/* ⬆︎ 바벨지원용 */}
                         <div>{this.state.first} 곱하기 {this.state.second} 는?</div>
                         <form onSubmit={this.onSubmit}>
                             <input type="number"
-                                value={this.state.value}
-                                onChange={this.onChange}/>
+                                ref = {(ref)=>{this.answerInput = ref;}}
+                                //특정 노드에 레퍼런스를 걸고 접근해야 할시 ref 사용
+                                //ref를 통해서 render 메서드에서 만든 DOM 노드나 React 요소에 접근해서, 값을 얻거나 수정할 수 있다.
+                                value = {this.state.value}
+                                onChange = {this.onChange}/>
                             <button>입력</button>
                         </form>
                         <div>{this.state.result}</div>
