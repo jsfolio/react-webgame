@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiply by react</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        //hooks
+        //함수 컴포넌트에서도 setState를 쓸 수 있게 함
+        const Multiply = () => {
+            //state를 하나씩 분리
+            const [first, setFirst] = React.useState(Math.ceil(Math.random()*9));
+            const [second, setSecond] = React.useState(Math.ceil(Math.random()*9));
+            const [value, setValue] = React.useState('');
+            const [result, setResult] = React.useState('');
+            const inputRef = React.useRef(null);
+
+            //state를 바꾸면 함수자체가 다시 실행되기 때문에 조금 더 느려질 수 있다.
+            const onChangeInput = (e) => {
+                setValue(e.target.value);
+            };
+            const onSubmitForm = (e) => {
+                e.preventDefault();
+                if(parseInt(value) === first * second){
+                    setResult('정답' + value);
+                    setFirst(Math.ceil(Math.random()*9));
+                    setSecond(Math.ceil(Math.random()*9));
+                    setValue('');
+
+                    inputRef.current.focus();
+                }else{
+                    setResult('땡!!');
+                    setValue('');
+                    inputRef.current.focus();
+                };
+            };
+            return (
+                <React.Fragment>
+                    <div>{first} 곱하기 {second} 는?</div>
+                    <form onSubmit={onSubmitForm}>
+                        <input type="number"
+                            ref = {inputRef}
+                            value = {value}
+                            onChange = {onChangeInput}/>
+                        <button>입력</button>
+                    </form>
+                    <div id="result">{result}</div>
+                </React.Fragment>
+            )
+        }
+    </script>
+    <script type="text/babel">
+        ReactDOM.render(
+        <Multiply/>
+        ,document.querySelector("#root"))
+    </script>
+</body>
+</html>
