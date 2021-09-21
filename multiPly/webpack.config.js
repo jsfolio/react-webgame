@@ -1,9 +1,10 @@
 const path = require('path');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
     name: 'multiply',
-    mode: 'development', //프로덕션일 때는 hidden-source-map
-    devtool: 'eval',
+    mode: 'development', 
+    devtool: 'eval',// hidden-source-map
     resolve: {
         extensions: ['.js' , '.jsx'] 
     },
@@ -17,18 +18,27 @@ module.exports = {
             loader: 'babel-loader',
             options: {
                 presets: [
-                    '@babel/preset-env',
-                    '@babel/preset-react'
+                    ['@babel/preset-env', {
+                        targets: {browsers: ['> 1% in KR']},
+                        debug: true,
+                    }],
+                    '@babel/preset-react',
                 ],
-                plugins: [
-                    '@babel/plugin-proposal-class-properties'
-                ]
+                plugins: ['react-refresh/babel'],
             },
+            exclude: path.join(__dirname, 'node_modules'),
         }],
     },
-
+    plugins: [
+        new ReactRefreshWebpackPlugin(),
+    ],
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'app.js'
     },
+    devServer: {
+        devMiddleware: { publicPath: '/dist' },
+        static: { directory: path.resolve(__dirname) },
+        hot: true
+    }
 };
