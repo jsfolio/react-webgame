@@ -3,7 +3,7 @@ const { Component } = React;
 
 class WordRelay extends Component{
     state = {
-        word: '랄랄라',
+        word: '랄랄라루',
         value: '',
         result: '',
     };
@@ -31,8 +31,8 @@ class WordRelay extends Component{
     };
 
     input;
-    onRefInput = (c) => {
-        this.input = c;
+    onRefInput = (ref) => {
+        this.input = ref;
     };
 
     render(){

@@ -24,7 +24,10 @@ module.exports = {
                     }],
                     '@babel/preset-react',
                 ],
-                plugins: ['react-refresh/babel'],
+                plugins: [
+                    '@babel/plugin-proposal-class-properties',
+                    'react-refresh/babel'
+                ],
             },
             exclude: path.join(__dirname, 'node_modules'),
         }],
@@ -34,7 +37,8 @@ module.exports = {
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'app.js'
+        filename: 'app.js',
+        publicPath: '/dist/',
     },
     devServer: {
         devMiddleware: { publicPath: '/dist' },
